@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const zod = require('zod');
-const { User } = require('../db');
+const { User, Account } = require('../db');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
 const { authMiddleware } = require('../authmiddleware');
@@ -16,6 +16,20 @@ const signupBody = zod.object({
     firstname: zod.string(),
     lastname: zod.string(),
     password: zod.string()
+})
+
+
+const signinBody = zod.object({
+    username: zod.string().email(),
+    password: zod.string()
+
+})
+
+
+const updateBody = zod.object({
+    password: zod.string().optional(),
+    firstName: zod.string().optional(),
+    lastName: zod.string().optional(),
 })
 
 
@@ -48,6 +62,18 @@ router.post('./signup', async (req, res)=>{
 
     const userId = user._id;
 
+
+
+    // -------- Create new Account----------
+
+
+    await Account.create({
+        userId,
+        balance: 1 + Math.random()*10000
+    })
+
+
+
     const token = jwt.sign({
         userId
     }, JWT_SECRET);
@@ -59,11 +85,7 @@ router.post('./signup', async (req, res)=>{
 })
 
 
-const signinBody = zod.object({
-    username: zod.string().email(),
-    password: zod.string()
 
-})
 
 
 
@@ -98,12 +120,6 @@ router.post('./signin', async (req, res) => {
 })
 
 
-
-const updateBody = zod.object({
-    password: zod.string().optional(),
-    firstName: zod.string().optional(),
-    lastName: zod.string().optional(),
-})
 
 
 
