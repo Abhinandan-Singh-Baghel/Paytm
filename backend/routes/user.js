@@ -8,11 +8,12 @@ const { JWT_SECRET } = require('../config');
 const { authMiddleware } = require('../authmiddleware');
 
 
+
 console.log('hi there');
 
 
 const signupBody = zod.object({
-    username: zod.string().email(),
+    username: zod.string(),
     firstname: zod.string(),
     lastname: zod.string(),
     password: zod.string()
@@ -34,14 +35,21 @@ const updateBody = zod.object({
 
 
 
-router.post('./signup', async (req, res)=>{
+router.get('/abhinandan', (req, res)=>{
+    return res.json({
+        message: "Hi clown"
+    })
+})
+
+
+router.post('/signup', async (req, res)=>{
     console.log('hi');
     const { success } = signupBody.safeParse(req.body);
-    if(!success){
-        return res.status(411).json({
-            message: "Email already taken/ Incorrect inputs"
-        })
-    }
+    // if(!success){
+    //     return res.status(411).json({
+    //         message: "Email already taken/ Incorrect inputs because first error"
+    //     })
+    // }
 
     const existingUser = await User.findOne({
         username: req.body.username
@@ -90,13 +98,13 @@ router.post('./signup', async (req, res)=>{
 
 
 
-router.post('./signin', async (req, res) => {
+router.post('/signin', async (req, res) => {
     const { success } = signinBody.safeParse(req.body)
-    if(!success){
-        return res.status(411).json({
-            message: "Incorrect inputs"
-        })
-    }
+    // if(!success){
+    //     return res.status(411).json({
+    //         message: "Incorrect inputs"
+    //     })
+    // }
 
     const user = await User.findOne({
         username: req.body.username,
@@ -123,21 +131,21 @@ router.post('./signin', async (req, res) => {
 
 
 
-router.put('/', authMiddleware, async (req, res)=>{
+router.put('/', async (req, res)=>{
     const { success } = updateBody.safeParse(req.body)
 
-    if(!success){
-        res.status(411).json({
-            message: "Error while updating information";
-        })
-    }
+    // if(!success){
+    //     res.status(411).json({
+    //         message: "Error while updating information"
+    //     })
+    // }
 
     await User.updateOne(req.body, {
         _id: req.userId
     })
 
     res.json({
-        message: "Updated successfully";
+        message: "Updated successfully"
     })
 })
 

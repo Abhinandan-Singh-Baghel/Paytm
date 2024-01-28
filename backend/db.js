@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 //Create a Schema for Users
 
 
-mongoose.connect('mongodb+srv://abhinandansinghbaghel2001:cYfhJfMRLe23S7Ln@cluster0.3fjqkhz.mongodb.net/new_Year_project');
+mongoose.connect('mongodb+srv://abhinandansinghbaghel2001:abhinandan@cluster0.zonrd4d.mongodb.net/');
 
 const userSchema = new mongoose.Schema({
     username: {
