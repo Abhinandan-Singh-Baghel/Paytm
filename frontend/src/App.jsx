@@ -1,10 +1,10 @@
-import React from 'react';
+
 import { BrowserRouter, Route, Routes, } from 'react-router-dom';
 
-import { Signin } from './pages/Signin';
 import { Signup } from './pages/Signup';
-import { Dashboard } from './pages/Dashboard';
-import { SendMoney } from './pages/SendMoney';
+import { Signin } from './pages/Signin';
+// import { Dashboard } from './pages/Dashboard';
+// import { SendMoney } from './pages/SendMoney';
 
 
 
